@@ -42,7 +42,6 @@ AS SELECT UNIQUE
     w.LICZBA_MIEJSC - (SELECT count(*)
                        FROM WYCIECZKI wy
                        JOIN REZERWACJE re ON wy.ID_WYCIECZKI = re.ID_WYCIECZKI
-                       JOIN OSOBY os ON re.ID_OSOBY = os.ID_OSOBY
                        WHERE STATUS != 'A' AND w.ID_WYCIECZKI = wy.ID_WYCIECZKI)
         as WOLNE_MIEJSCA
 FROM WYCIECZKI w

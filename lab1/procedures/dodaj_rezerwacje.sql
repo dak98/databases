@@ -9,6 +9,7 @@ AS
     brak_wolnych_miejsc EXCEPTION;
     termin_minal EXCEPTION;
     czy_istnieje INT;
+    nr_nowej_rezerwacji INT;
 BEGIN
     SELECT COUNT(*)
     INTO czy_istnieje
@@ -69,4 +70,18 @@ BEGIN
 
     INSERT INTO rezerwacje(id_wycieczki, id_osoby, status)
     VALUES (ID_WYCIECZKI, ID_OSOBY, 'N');
+
+    -- Zakladajac, ze mozliwa jest tylko jedna rezerwacja na pare
+    -- (wycieczka, osoba)
+    SELECT
+        NR_REZERWACJI
+    INTO nr_nowej_rezerwacji
+    FROM REZERWACJE r
+    WHERE r.ID_WYCIECZKI = dodaj_rezerwacje.ID_WYCIECZKI
+    AND r.ID_OSOBY = dodaj_rezerwacje.ID_OSOBY;
+
+    INSERT INTO rezerwacje_log(NR_REZERWACJI, DATA, STATUS)
+    VALUES (nr_nowej_rezerwacji, CURRENT_DATE, 'N');
+
+    COMMIT;
 END;

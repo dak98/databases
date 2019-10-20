@@ -1,0 +1,8 @@
+CREATE OR REPLACE TRIGGER usun_rezerwacje_trigger
+BEFORE DELETE ON REZERWACJE
+FOR EACH ROW
+DECLARE
+    nie_mozna_usunac EXCEPTION;
+BEGIN
+    RAISE nie_mozna_usunac;
+END;
